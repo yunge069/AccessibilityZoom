@@ -14,7 +14,7 @@
     <PlatformTarget>x64</PlatformTarget>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <AssemblyName>AccessibilityZoom</AssemblyName>
-    <Version>4.3.21</Version>
+    <Version>4.3.22</Version>
     <UpdateRepositoryUrl Condition="'$(UpdateRepositoryUrl)' == ''">https://github.com/yunge069/AccessibilityZoom</UpdateRepositoryUrl>
     <DefineConstants>$(DefineConstants);DISABLE_XAML_GENERATED_MAIN</DefineConstants>
     <StartupObject>AccessibilityZoom.Program</StartupObject>

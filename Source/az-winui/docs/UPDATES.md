@@ -40,6 +40,14 @@ To restore, exit the app and extract the chosen ZIP over the data directory.
   backup or app exit cannot install without a new confirmation.
 - Install/update hooks migrate an existing startup opt-in to the stable launcher.
   Fresh installs remain opt-out. Uninstall removes only its own startup entry.
+- From 4.3.22, managed builds also recognize the historical
+  `AccessibilityZoom Admin Prompt` sign-in task for the current user. An enabled
+  task counts as an existing opt-in, even without a Run entry. Migration writes
+  the stable launcher first, then disables the task; it does not delete the task.
+  Turning startup off disables both registrations. Only the known Windows
+  PowerShell command targeting `AccessibilityZoom.exe --start-minimized` with
+  `RunAs` is recognized. Edited tasks, other users and unrelated tasks are left
+  alone. Task-access failures are reported in the startup setting warning.
 - From 4.3.20 onward, launching an older loose build does not silently retarget
   startup to a lower version. Older binaries cannot be retroactively patched;
   remove old portable copies after the first installation.

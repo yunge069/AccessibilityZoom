@@ -25,6 +25,7 @@
     <Compile Include="..\src\FocusedAppAudio.cs" Link="FocusedAppAudio.cs" />
     <Compile Include="..\src\StartupColorSequence.cs" Link="StartupColorSequence.cs" />
     <Compile Include="..\src\WindowsStartupRegistration.cs" Link="WindowsStartupRegistration.cs" />
+    <Compile Include="..\src\LegacyStartupTask.cs" Link="LegacyStartupTask.cs" />
     <Compile Include="..\src\UpdateSafety.cs" Link="UpdateSafety.cs" />
     <Compile Include="..\src\ThirdParty\**\*.cs" Link="ThirdParty\%(RecursiveDir)%(Filename)%(Extension)" />
     <PackageReference Include="System.Drawing.Common" Version="9.0.1" />

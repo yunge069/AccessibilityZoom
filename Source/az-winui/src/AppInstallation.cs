@@ -33,10 +33,13 @@ namespace AccessibilityZoom
 
         internal static void RefreshStartup()
         {
-            var registration = new WindowsStartupRegistration(StartupExecutable);
+            var registration = CreateStartupRegistration();
             if (registration.Read(out bool enabled, out _) && enabled)
                 registration.RefreshEnabledRegistration(out _);
         }
+
+        internal static WindowsStartupRegistration CreateStartupRegistration() => new(
+            StartupExecutable, legacyTask: IsManaged ? new LegacyStartupTask() : null);
 
         internal static void RemoveStartup()
         {
