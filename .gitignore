@@ -1,0 +1,21 @@
+# Local builds, tools and backups; source remains under Source/.
+/Builds/
+/Source/OSSYSCOPER/
+**/.tools/
+**/dist/
+**/bin/
+**/obj/
+.vs/
+.idea/
+*.user
+*.suo
+*.log
+.env
+.env.*
+!.env.example
+# The native bridge is a required build input, not a generated managed output.
+!Source/az-winui/native/bin/
+!Source/az-winui/native/bin/AmdAdlxBridge.dll
+# Obtain AMD's separately licensed SDK from its upstream repository.
+Source/az-winui/native/adlx/*
+!Source/az-winui/native/adlx/ADLX SDK License Agreement.pdf

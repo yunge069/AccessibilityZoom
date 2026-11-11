@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\src\InputBindings.cs" Link="InputBindings.cs" />
+    <Compile Include="..\src\GameplayCursorPolicy.cs" Link="GameplayCursorPolicy.cs" />
+    <Compile Include="..\src\CrosshairCursor.cs" Link="CrosshairCursor.cs" />
+    <Compile Include="..\src\NativeMethods.cs" Link="NativeMethods.cs" />
+    <Compile Include="..\src\SettingsStore.cs" Link="SettingsStore.cs" />
+    <Compile Include="..\src\ColorFilterSettings.cs" Link="ColorFilterSettings.cs" />
+    <Compile Include="..\src\ColorProfileStore.cs" Link="ColorProfileStore.cs" />
+    <Compile Include="..\src\ScopeMath.cs" Link="ScopeMath.cs" />
+    <Compile Include="..\src\CrosshairAssets.cs" Link="CrosshairAssets.cs" />
+    <Compile Include="..\src\CrosshairImporter.cs" Link="CrosshairImporter.cs" />
+    <Compile Include="..\src\StaticCrosshairRasterizer.cs" Link="StaticCrosshairRasterizer.cs" />
+    <Compile Include="..\src\CrosshairSurface.cs" Link="CrosshairSurface.cs" />
+    <Compile Include="..\src\DisplayHelper.cs" Link="DisplayHelper.cs" />
+    <Compile Include="..\src\DesktopTransformState.cs" Link="DesktopTransformState.cs" />
+    <Compile Include="..\src\GpuCrosshairSurface.cs" Link="GpuCrosshairSurface.cs" />
+    <Compile Include="..\src\QuietVolumePolicy.cs" Link="QuietVolumePolicy.cs" />
+    <Compile Include="..\src\FocusedAppAudio.cs" Link="FocusedAppAudio.cs" />
+    <Compile Include="..\src\StartupColorSequence.cs" Link="StartupColorSequence.cs" />
+    <Compile Include="..\src\WindowsStartupRegistration.cs" Link="WindowsStartupRegistration.cs" />
+    <Compile Include="..\src\UpdateSafety.cs" Link="UpdateSafety.cs" />
+    <Compile Include="..\src\ThirdParty\**\*.cs" Link="ThirdParty\%(RecursiveDir)%(Filename)%(Extension)" />
+    <PackageReference Include="System.Drawing.Common" Version="9.0.1" />
+    <PackageReference Include="Vortice.DirectComposition" Version="3.6.2" />
+    <PackageReference Include="Vortice.Direct3D11" Version="3.6.2" />
+  </ItemGroup>
+</Project>

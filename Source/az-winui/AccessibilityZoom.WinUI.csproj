@@ -1,0 +1,67 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <ApplicationIcon>Assets\AppIcon.ico</ApplicationIcon>
+    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <UseWinUI>true</UseWinUI>
+    <WindowsPackageType>None</WindowsPackageType>
+    <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <EnableDefaultPageItems>false</EnableDefaultPageItems>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <PlatformTarget>x64</PlatformTarget>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <AssemblyName>AccessibilityZoom</AssemblyName>
+    <Version>4.3.20</Version>
+    <UpdateRepositoryUrl Condition="'$(UpdateRepositoryUrl)' == ''">https://github.com/yunge069/AccessibilityZoom</UpdateRepositoryUrl>
+    <DefineConstants>$(DefineConstants);DISABLE_XAML_GENERATED_MAIN</DefineConstants>
+    <StartupObject>AccessibilityZoom.Program</StartupObject>
+    <Product>Accessibility Zoom</Product>
+    <RootNamespace>AccessibilityZoom</RootNamespace>
+    <Optimize>true</Optimize>
+    <DebugType>embedded</DebugType>
+    <!-- The WinUI XAML compiler ships as a net472-only exe; on non-Windows
+         hosts the managed in-process compiler task must be used instead.
+         (Windows builds keep the default out-of-process compiler.) -->
+    <UseXamlCompilerExecutable Condition="'$(OS)' != 'Windows_NT'">false</UseXamlCompilerExecutable>
+    <!-- Single-file publish is not supported for unpackaged WinUI 3 apps:
+         Microsoft.WindowsAppSDK.SingleFile.targets errors out demanding
+         EnableMsixTooling/resources.pri. Self-contained multi-file it is. -->
+    <SelfContained>true</SelfContained>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="src\**\*.cs" />
+    <ApplicationDefinition Include="src\App.xaml" />
+    <Page Include="src\MainWindow.xaml" />
+    <Content Include="Assets\**\*" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\LICENSE.md" Link="LICENSE.md" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\..\NOTICE.md" Link="NOTICE.md" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\..\LICENSE-GUIDE.md" Link="LICENSE-GUIDE.md" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <EmbeddedResource Include="src\Shaders\*.hlsl" LogicalName="AccessibilityZoom.Shaders.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="native\bin\AmdAdlxBridge.dll" LogicalName="AccessibilityZoom.Native.AmdAdlxBridge.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AssemblyMetadata Include="UpdateRepositoryUrl" Value="$(UpdateRepositoryUrl)" />
+    <PackageReference Include="Velopack" Version="1.2.161" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="2.5.1" />
+    <PackageReference Include="H.NotifyIcon.WinUI" Version="2.3.2" />
+    <PackageReference Include="Vortice.D3DCompiler" Version="3.6.2" />
+    <PackageReference Include="Vortice.Direct3D11" Version="3.6.2" />
+    <PackageReference Include="Vortice.DirectComposition" Version="3.6.2" />
+    <PackageReference Include="Vortice.DXGI" Version="3.6.2" />
+    <PackageReference Include="System.Windows.Extensions" Version="8.0.0" />
+    <PackageReference Include="System.Drawing.Common" Version="9.0.1" />
+  </ItemGroup>
+
+  <!-- Unpackaged WinUI 3 keeps its compiled XAML (XBF) in $(AssemblyName).pri.
+       `dotnet build` puts it next to the exe, but `dotnet publish` omits it,
+       and without it Application.LoadComponent throws XamlParseException at
+       startup. Copy it into the publish folder so the published app runs. -->
+  <Target Name="IncludeAppPriInPublish" AfterTargets="Publish">
+    <Copy SourceFiles="$(OutputPath)$(AssemblyName).pri" DestinationFolder="$(PublishDir)" SkipUnchangedFiles="true" />
+  </Target>
+</Project>
