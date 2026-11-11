@@ -12,7 +12,7 @@ namespace AccessibilityZoom
         private void InitializeWindowsStartupSetting()
         {
             if (previewMode) { WindowsStartupToggle.IsEnabled = false; return; }
-            var registration = new WindowsStartupRegistration(AppInstallation.StartupExecutable);
+            var registration = AppInstallation.CreateStartupRegistration();
             if (!registration.Read(out bool enabled, out string error))
                 windowsStartupWarning = "Windows startup setting could not be read: " + error;
             // Managed installations always use the stable launcher; opening an

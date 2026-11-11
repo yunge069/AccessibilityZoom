@@ -102,6 +102,8 @@ An available version appears in the app. Downloading and installing requires **U
 
 **Start with Windows** uses a permanent launcher that opens the installed version. Older portable folders remain separate from the managed installation. [Installation and update details →](Source/az-winui/docs/UPDATES.md)
 
+From **4.3.22**, installation and updates also disable the recognized historical **AccessibilityZoom Admin Prompt** sign-in task after moving its startup preference to that launcher. This prevents the task from opening an old portable copy or showing its old administrator prompt at sign-in.
+
 ## Privacy and local data
 
 No app account is required. The application code contains no analytics or telemetry upload feature. Preferences, color profiles and imported crosshairs are stored on your computer.

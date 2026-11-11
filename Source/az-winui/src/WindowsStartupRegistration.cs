@@ -11,14 +11,17 @@ namespace AccessibilityZoom
         private readonly string executable;
         private readonly string keyPath;
         private readonly string valueName;
+        private readonly ILegacyStartupTask legacyTask;
 
-        internal WindowsStartupRegistration(string executable, string keyPath = DefaultKey, string valueName = "AccessibilityZoom")
+        internal WindowsStartupRegistration(string executable, string keyPath = DefaultKey, string valueName = "AccessibilityZoom",
+            ILegacyStartupTask legacyTask = null)
         {
             if (string.IsNullOrWhiteSpace(executable) || executable.Contains('"'))
                 throw new ArgumentException("A valid application path is required.", nameof(executable));
             this.executable = Path.GetFullPath(executable);
             this.keyPath = keyPath;
             this.valueName = valueName;
+            this.legacyTask = legacyTask;
         }
 
         internal string Command => "\"" + executable + "\" --start-minimized";
@@ -27,12 +30,21 @@ namespace AccessibilityZoom
         {
             try
             {
+                // A task-only installation is also an existing startup opt-in.
+                // Write its replacement before disabling the historical task.
                 using RegistryKey key = Registry.CurrentUser.OpenSubKey(keyPath, true);
-                if (key?.GetValue(valueName) is string command && !string.IsNullOrWhiteSpace(command))
+                string command = key?.GetValue(valueName) as string;
+                bool registered = !string.IsNullOrWhiteSpace(command);
+                bool taskEnabled = legacyTask?.Enabled == true;
+                if (registered || taskEnabled)
                 {
                     string previous = ExecutableFromCommand(command);
                     if (CanReplace(previous, executable, ReadVersion))
-                        key.SetValue(valueName, Command, RegistryValueKind.String);
+                    {
+                        using RegistryKey destination = Registry.CurrentUser.CreateSubKey(keyPath, true);
+                        destination.SetValue(valueName, Command, RegistryValueKind.String);
+                        if (taskEnabled) legacyTask.Disable();
+                    }
                 }
                 error = "";
                 return true;
@@ -98,6 +110,7 @@ namespace AccessibilityZoom
             {
                 using RegistryKey key = Registry.CurrentUser.OpenSubKey(keyPath);
                 enabled = key?.GetValue(valueName) is string command && !string.IsNullOrWhiteSpace(command);
+                enabled |= legacyTask?.Enabled == true;
                 error = "";
                 return true;
             }
@@ -112,9 +125,13 @@ namespace AccessibilityZoom
                 {
                     using RegistryKey key = Registry.CurrentUser.CreateSubKey(keyPath, true);
                     key.SetValue(valueName, Command, RegistryValueKind.String);
+                    legacyTask?.Disable();
                 }
                 else
                 {
+                    // If this fails, retain the Run entry and report that
+                    // startup could not be turned off completely.
+                    legacyTask?.Disable();
                     using RegistryKey key = Registry.CurrentUser.OpenSubKey(keyPath, true);
                     key?.DeleteValue(valueName, false);
                 }
