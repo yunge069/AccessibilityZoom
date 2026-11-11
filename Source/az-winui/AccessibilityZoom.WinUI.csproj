@@ -14,7 +14,7 @@
     <PlatformTarget>x64</PlatformTarget>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <AssemblyName>AccessibilityZoom</AssemblyName>
-    <Version>4.3.20</Version>
+    <Version>4.3.21</Version>
     <UpdateRepositoryUrl Condition="'$(UpdateRepositoryUrl)' == ''">https://github.com/yunge069/AccessibilityZoom</UpdateRepositoryUrl>
     <DefineConstants>$(DefineConstants);DISABLE_XAML_GENERATED_MAIN</DefineConstants>
     <StartupObject>AccessibilityZoom.Program</StartupObject>
@@ -22,6 +22,9 @@
     <RootNamespace>AccessibilityZoom</RootNamespace>
     <Optimize>true</Optimize>
     <DebugType>embedded</DebugType>
+    <!-- Release symbols can contain the builder's local username and paths. -->
+    <DebugType Condition="'$(Configuration)' == 'Release'">none</DebugType>
+    <DebugSymbols Condition="'$(Configuration)' == 'Release'">false</DebugSymbols>
     <!-- The WinUI XAML compiler ships as a net472-only exe; on non-Windows
          hosts the managed in-process compiler task must be used instead.
          (Windows builds keep the default out-of-process compiler.) -->

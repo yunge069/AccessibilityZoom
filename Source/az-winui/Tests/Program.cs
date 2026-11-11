@@ -1,5 +1,11 @@
 using AccessibilityZoom;
 
+if (args.Length == 2 && args[0] == "--verify-release-symbols")
+{
+    ReleaseArtifactChecks.VerifySymbols(args[1]);
+    return;
+}
+
 if (args.Contains("--audio-child")) { AudioIntegrationTests.RunChild(); return; }
 if (args.Contains("--startup-diagnostics"))
 {

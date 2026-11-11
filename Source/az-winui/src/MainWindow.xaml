@@ -287,7 +287,9 @@
                     <StackPanel Spacing="12">
                         <TextBlock Text="Updates" Style="{StaticResource SectionHeaderStyle}" />
                         <TextBlock x:Name="UpdateVersionText" Style="{StaticResource SecondaryCaptionStyle}" />
-                        <ToggleSwitch x:Name="AutomaticUpdatesToggle" Header="Check for updates automatically" IsEnabled="False" />
+                        <ToggleSwitch x:Name="AutomaticUpdatesToggle" Header="Check for updates at startup" IsEnabled="False" />
+                        <TextBlock Text="Checks once after launch. Use Check for updates whenever you want to check again."
+                                   TextWrapping="Wrap" Style="{StaticResource SecondaryCaptionStyle}" />
                         <TextBlock x:Name="UpdateStatusText" TextWrapping="Wrap" Style="{StaticResource SecondaryCaptionStyle}" />
                         <ProgressBar x:Name="UpdateProgress" Minimum="0" Maximum="100" Visibility="Collapsed" />
                         <StackPanel Orientation="Horizontal" Spacing="8">

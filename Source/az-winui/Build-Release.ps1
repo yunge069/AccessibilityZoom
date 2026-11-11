@@ -23,6 +23,8 @@ dotnet run --project (Join-Path $PSScriptRoot 'Tests\AccessibilityZoom.Tests.csp
 if ($LASTEXITCODE) { throw 'Regression tests failed.' }
 dotnet publish $projectFile -c Release -o $staging "-p:Version=$Version" "-p:UpdateRepositoryUrl=$($RepositoryUrl.TrimEnd('/'))"
 if ($LASTEXITCODE) { throw 'Publish failed.' }
+dotnet run --project (Join-Path $PSScriptRoot 'Tests\AccessibilityZoom.Tests.csproj') -c Release --no-build -- --verify-release-symbols $staging
+if ($LASTEXITCODE) { throw 'Release debug-symbol privacy check failed.' }
 foreach ($selfTest in '--self-test', '--crosshair-self-test') {
     $process = Start-Process -FilePath (Join-Path $staging 'AccessibilityZoom.exe') -ArgumentList $selfTest -WindowStyle Hidden -PassThru -Wait
     if ($process.ExitCode) { throw "Packaged $selfTest failed with code $($process.ExitCode)." }

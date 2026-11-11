@@ -29,8 +29,10 @@ To restore, exit the app and extract the chosen ZIP over the data directory.
   explain that Setup.exe is needed.
 - Public HTTPS GitHub repository is embedded at build time. No GitHub token is
   shipped to users. Draft/prerelease releases and downgrades are excluded.
-- Automatic check 10 seconds after startup and every 6 hours; manual check in
-  the Updates card or tray menu. An available update appears in an in-app banner.
+- One automatic check 10 seconds after startup, if enabled; manual check in
+  the Updates card or tray menu. There are no recurring checks during a session.
+  An available update appears in an in-app banner. Turning the startup switch
+  off still allows manual checks; turning it on takes effect at the next launch.
 - The confirmation dialog defaults to Later. Nothing downloads before consent.
 - Velopack verifies downloaded package checksums. Apply waits for normal app
   shutdown, restoring zoom/color/cursor/audio and then restarting the new build.
@@ -45,8 +47,8 @@ To restore, exit the app and extract the chosen ZIP over the data directory.
 ## Release repository
 
 The intended repository now includes public source for inspection as well as
-compiled releases. Use `RELEASE-REPOSITORY-README.md` as the draft README and
-the workspace `.gitignore` to exclude builds, caches, credentials and editor
+compiled releases. Maintain the repository-root `README.md` as the project page and
+use the workspace `.gitignore` to exclude builds, caches, credentials and editor
 files. Project-original software uses the unmodified PolyForm Noncommercial
 License 1.0.0 in the workspace `LICENSE.md`; `NOTICE.md` defines scope and
 preserves third-party licensing. `LICENSE-GUIDE.md` explains permitted purposes
@@ -63,6 +65,10 @@ Build locally with the installed .NET 8 SDK:
 ```powershell
 .\Build-Release.ps1
 ```
+
+Release builds omit embedded debug symbols, which can contain local builder
+paths and usernames. The packaging script rejects embedded symbols and PDB
+files for the project assembly before packaging.
 
 This runs regression tests, publishes to a fresh staging directory, runs both
 packaged headless self-tests, and packages using pinned Velopack/vpk 1.2.161.

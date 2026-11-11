@@ -16,7 +16,6 @@ namespace AccessibilityZoom
         private bool updateBusy;
         private bool restoringUpdatePreference;
         private readonly CancellationTokenSource updateCancellation = new();
-        private DispatcherTimer updateTimer;
 
         internal void InitializeUpdates()
         {
@@ -56,12 +55,6 @@ namespace AccessibilityZoom
                 InstallUpdateButton.Click += async (_, __) => await InstallUpdateAsync();
                 UpdateNoticeButton.Click += async (_, __) => await InstallUpdateAsync();
                 if (!updates.Available) return;
-                updateTimer = new DispatcherTimer { Interval = TimeSpan.FromHours(6) };
-                updateTimer.Tick += async (_, __) =>
-                {
-                    if (updatePreferences.CheckAutomatically) await CheckUpdatesAsync(false);
-                };
-                updateTimer.Start();
                 _ = CheckUpdatesAfterStartupAsync();
             }
             catch (Exception error) { UpdateStatusText.Text = "Updates unavailable: " + error.Message; }
@@ -180,7 +173,6 @@ namespace AccessibilityZoom
 
         private void StopUpdates()
         {
-            updateTimer?.Stop();
             updateCancellation.Cancel();
         }
     }
